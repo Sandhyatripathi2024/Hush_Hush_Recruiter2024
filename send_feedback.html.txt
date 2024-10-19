@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Send Feedback</title>
+</head>
+<body>
+    <div class="page-container">
+        <h1>Send Feedback to Candidates</h1>
+
+        <form method="POST" action="{{ url_for('send_feedback') }}">
+            <!-- Candidates List -->
+            <div class="candidates-list">
+                <h3>Select Candidates to Send Feedback:</h3>
+
+                {% for candidate in candidates %}
+                    <div class="candidate-item">
+                        <input type="checkbox" name="candidate_email" value="{{ candidate.Email }}">
+                        <label>{{ candidate.Username }} ({{ candidate.Email }})</label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Feedback Template Dropdown -->
+            <div class="form-group">
+                <label for="feedback_template">Choose Feedback Type:</label>
+                <select name="feedback_template" class="form-control" required>
+                    <option value="accepted">Accepted</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+
+            <!-- Send Email Button -->
+            <div class="button-container">
+                <button type="submit" class="btn btn-primary">Send Email</button>
+            </div>
+        </form>
+
+        <!-- Back to Dashboard Button -->
+        <div class="button-container">
+            <button onclick="window.location.href='/dashboard';" class="btn btn-secondary">Back to Dashboard</button>
+        </div>
+    </div>
+</body>
+</html>

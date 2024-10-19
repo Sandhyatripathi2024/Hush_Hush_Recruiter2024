@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Candidate Responses</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>View Candidate Responses</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th>Q3</th>
+                <th>Q4</th>
+                <th>Q5</th>
+                <th>Q6</th>
+                <th>Q7</th>
+                <th>Q8</th>
+                <th>Q9</th>
+                <th>Q10</th>
+                <th>Q11</th>
+                <th>Q12</th>
+                <th>Q13</th>
+                <th>Q14</th>
+                <th>Q15</th>
+                <th>Q16</th>
+                <th>Q17</th>
+                <th>Q18</th>
+                <th>Q19</th>
+                <th>Q20</th>
+                <th>Q21</th>
+                <th>Q22</th>
+                <th>Q23</th>
+                <th>Q24</th>
+                <th>Q25</th>
+                <th>Q26</th>
+                <th>Q27</th>
+                <th>Q28</th>
+                <th>Q29</th>
+                <th>Q30</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if responses %}
+                {% for response in responses %}
+                <tr>
+                    <td>{{ response[0] }}</td>  <!-- Email -->
+                    <td>{{ response[1] }}</td>  <!-- Q1 -->
+                    <td>{{ response[2] }}</td>  <!-- Q2 -->
+                    <td>{{ response[3] }}</td>  <!-- Q3 -->
+                    <td>{{ response[4] }}</td>  <!-- Q4 -->
+                    <td>{{ response[5] }}</td>  <!-- Q5 -->
+                    <td>{{ response[6] }}</td>  <!-- Q6 -->
+                    <td>{{ response[7] }}</td>  <!-- Q7 -->
+                    <td>{{ response[8] }}</td>  <!-- Q8 -->
+                    <td>{{ response[9] }}</td>  <!-- Q9 -->
+                    <td>{{ response[10] }}</td> <!-- Q10 -->
+                    <td>{{ response[11] }}</td> <!-- Q11 -->
+                    <td>{{ response[12] }}</td> <!-- Q12 -->
+                    <td>{{ response[13] }}</td> <!-- Q13 -->
+                    <td>{{ response[14] }}</td> <!-- Q14 -->
+                    <td>{{ response[15] }}</td> <!-- Q15 -->
+                    <td>{{ response[16] }}</td> <!-- Q16 -->
+                    <td>{{ response[17] }}</td> <!-- Q17 -->
+                    <td>{{ response[18] }}</td> <!-- Q18 -->
+                    <td>{{ response[19] }}</td> <!-- Q19 -->
+                    <td>{{ response[20] }}</td> <!-- Q20 -->
+                    <td>{{ response[21] }}</td> <!-- Q21 -->
+                    <td>{{ response[22] }}</td> <!-- Q22 -->
+                    <td>{{ response[23] }}</td> <!-- Q23 -->
+                    <td>{{ response[24] }}</td> <!-- Q24 -->
+                    <td>{{ response[25] }}</td> <!-- Q25 -->
+                    <td>{{ response[26] }}</td> <!-- Q26 -->
+                    <td>{{ response[27] }}</td> <!-- Q27 -->
+                    <td>{{ response[28] }}</td> <!-- Q28 -->
+                    <td>{{ response[29] }}</td> <!-- Q29 -->
+                    <td>{{ response[30] }}</td> <!-- Q30 -->
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="31">No responses available</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <div class="button-container">
+        <button onclick="window.location.href='/dashboard';" class="btn btn-secondary">Back to Dashboard</button>
+    </div>
+</body>
+</html>

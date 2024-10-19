@@ -1,0 +1,98 @@
+import sqlite3
+import pandas as pd
+
+# Connect to your SQLite database
+conn = sqlite3.connect('database.db')
+cursor = conn.cursor()
+
+# Load the CSV file into a pandas DataFrame
+csv_file = r'C:/Users/DISHA G U/OneDrive/Desktop/disha_answers.csv'
+df = pd.read_csv(csv_file)
+
+# Optional: Check the data and column names
+print(df.head())  # Prints the first 5 rows to check
+print(df.columns)  # Prints the column names
+df.columns = df.columns.str.strip()
+
+# Create the table (if not already created)
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS form_responses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT,
+    q1 TEXT,
+    q2 TEXT,
+    q3 TEXT,
+    q4 TEXT,
+    q5 TEXT,
+    q6 TEXT,
+    q7 TEXT,
+    q8 TEXT,
+    q9 TEXT,
+    q10 TEXT,
+    q11 TEXT,
+    q12 TEXT,
+    q13 TEXT,
+    q14 TEXT,
+    q15 TEXT,
+    q16 TEXT,
+    q17 TEXT,
+    q18 TEXT,
+    q19 TEXT,
+    q20 TEXT,
+    q21 TEXT,
+    q22 TEXT,
+    q23 TEXT,
+    q24 TEXT,
+    q25 TEXT,
+    q26 TEXT,
+    q27 TEXT,
+    q28 TEXT,
+    q29 TEXT,
+    q30 TEXT
+)
+''')
+
+# Insert CSV data into the SQLite table
+for row in df.itertuples():
+    cursor.execute('''
+        INSERT INTO form_responses (email, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22, q23, q24, q25, q26, q27, q28, q29, q30)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        row.email,  # email
+        row.q1,     # answer to question 1
+        row.q2,     # answer to question 2
+        row.q3,     # answer to question 3
+        row.q4,     # answer to question 4
+        row.q5,     # answer to question 5
+        row.q6,     # answer to question 6
+        row.q7,     # answer to question 7
+        row.q8,     # answer to question 8
+        row.q9,     # answer to question 9
+        row.q10,    # answer to question 10
+        row.q11,    # answer to question 11
+        row.q12,    # answer to question 12
+        row.q13,    # answer to question 13
+        row.q14,    # answer to question 14
+        row.q15,    # answer to question 15
+        row.q16,    # answer to question 16
+        row.q17,    # answer to question 17
+        row.q18,    # answer to question 18
+        row.q19,    # answer to question 19
+        row.q20,    # answer to question 20
+        row.q21,    # answer to question 21
+        row.q22,    # answer to question 22
+        row.q23,    # answer to question 23
+        row.q24,    # answer to question 24
+        row.q25,    # answer to question 25
+        row.q26,    # answer to question 26
+        row.q27,    # answer to question 27
+        row.q28,    # answer to question 28
+        row.q29,    # answer to question 29
+        row.q30     # answer to question 30
+    ))
+
+# Commit the transaction and close the connection
+conn.commit()
+conn.close()
+
+print("CSV data successfully imported into the SQLite database!")

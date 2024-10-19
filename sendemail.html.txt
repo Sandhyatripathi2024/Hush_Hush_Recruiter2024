@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Send Email</title>
+    
+</head>
+<body>
+    <div class="page-container">
+        <h1>Send Email to Candidates</h1>
+        <form method="POST" action="{{ url_for('send_email') }}">
+            <ul>
+            {% for candidate in candidates %}
+                <li>
+                    <input type="checkbox" name="selected_candidates" value="{{ candidate.Email }}">
+                    {{ candidate.Username }} ({{ candidate.Email }})
+                </li>
+            {% endfor %}
+            </ul>
+            <button type="submit">Send Emails</button>
+        </form>
+        <br>
+        <div class="button-container">
+            <button onclick="window.location.href='/dashboard';" class="btn btn-secondary">Back to Dashboard</button>
+        </div>
+    </div>    
+</body>
+</html>

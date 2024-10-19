@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffdd0062; /* Yellow color to match the boy's shirt */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center; /* Center the container */
+            align-items: center;
+            margin-top: 50px;
+            width: 80%;
+            max-width: 1200px;
+            gap: 40px; /* Space between the image and the form box */
+        }
+
+        .test-interface {
+            background-color: rgba(255, 255, 255, 0.34);
+            padding: 20px;
+            width: 400px;
+            margin-left: 20px; /* Add margin to shift it slightly to the left */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.285);
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container img {
+            max-width: 300px; /* Adjust as needed */
+            height: auto;
+            border-radius: 10px;
+        }
+
+        input, select, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #cccccc5e;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ff6a00c9;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Image Container -->
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='images/image.png') }}" alt="Boy Studying">
+        </div>
+
+        <!-- Test Interface Form -->
+        <div class="test-interface">
+            <h2>Welcome To Assessment Portal</h2>
+            <form>
+                <input type="text" placeholder="Enter your name">
+                <input type="text" placeholder="Enter your email address">
+                <select>
+                    <option>Select your language</option>
+                    <option>Python</option>
+                    <option>Java</option>
+                    <option>Go</option>
+                </select>
+                <select>
+                    <option>Select your difficulty level</option>
+                    <option>Basic</option>
+                    <option>Intermediate</option>
+                    <option>Expert</option>
+                </select>
+                <button type="submit">Start Test</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+import sqlite3
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
+from pprint import pprint
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+
+# Brevo API Configuration (API key hardcoded)
+configuration = sib_api_v3_sdk.Configuration()
+configuration.api_key['api-key'] = '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'  # Replace with actual API key
+api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
+
+# SQLite Database connection to get candidates
+def get_candidates():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT Username, Email FROM candidates")  # Ensure the 'candidates' table has 'name' and 'email'
+    candidates = cursor.fetchall()
+    conn.close()
+    return [{'Username': row['Username'], 'Email': row['Email']} for row in candidates]
+
+# Root Route - Redirect to login or dashboard
+@app.route('/')
+def index():
+    if 'user_id' in session:
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
+
+# Login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        user = cursor.execute('SELECT * FROM managers WHERE email = ? AND password = ?', (email, password)).fetchone()
+        conn.close()
+
+        if user:
+            session['user_id'] = user[0]  # Assuming 'id' is the first column
+            session['email'] = user[1]    # Assuming 'email' is the second column
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid email or password', 'error')
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+# Dashboard page
+@app.route('/dashboard')
+def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    return render_template('dashboard.html')
+
+def get_responses():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    # Query to fetch all relevant data
+    cursor.execute('''
+        SELECT email, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, 
+               q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, 
+               q21, q22, q23, q24, q25, q26, q27, q28, q29, q30 
+        FROM form_responses
+    ''')
+    
+    # Fetch all results
+    responses = cursor.fetchall()
+
+    # Close the connection
+    conn.close()
+    
+    # Return the responses fetched from the database
+    return responses
+
+@app.route('/view_answers')
+def view_answers():
+    # Get candidate responses from the database
+    responses = get_responses()
+    
+    # Pass the responses to the HTML template
+    return render_template('view_answers.html', responses=responses)
+
+    # Render the HTML template and pass the form responses to it
+    #return render_template('view_answers.html', responses=responses)
+
+
+# Logout page
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+if __name__ == '__main__':
+    app.run(host="127.0.0.1", port=5002)
